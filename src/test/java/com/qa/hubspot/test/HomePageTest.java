@@ -1,38 +1,22 @@
 package com.qa.hubspot.test;
 
-import java.util.Properties;
-
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.qa.hubspot.base.BasePage;
+import com.qa.hubspot.base.BaseTest;
 import com.qa.hubspot.pages.HomePage;
-import com.qa.hubspot.pages.LoginPage;
 import com.qa.hubspot.utils.Constants;
 
-public class HomePageTest {
-	WebDriver driver;
-	BasePage basePage;
-	LoginPage loginPage;
+public class HomePageTest extends BaseTest {
 	HomePage homePage;
-	Properties prop;
 	
-	
-//	basePage=new BasePage();
-//	prop=basePage.init_prop();
-//	driver=basePage.init_driver(prop);
-//	loginPage=new LoginPage(driver);
-	@BeforeTest
-	public void setup() {
-		basePage=new BasePage();
-		prop=basePage.init_prop();
-		driver=basePage.init_driver(prop);
-		loginPage=new LoginPage(driver);
+	@BeforeClass
+	public void homeSetUP() {
 		homePage=loginPage.doLogin(prop.getProperty("username"),prop.getProperty("password"));
-		}
+		
+		
+	}
+	
 	
 	@Test(priority=3)
 	public void verifyHomePageTitle() {
@@ -45,11 +29,11 @@ public class HomePageTest {
 	public void verifyGetLoggedInUserTest() {
 		boolean value=homePage.getLoggedInUser();
 		
-		Assert.assertTrue(value,"account name is not desplayed");
+		Assert.assertTrue(value,"account name is not displayed");
 		
 		
 		
-	}
+}
 	@Test(priority=1)
 	public void verifyHomePageHeaderTest() {
 		String title=homePage.getHomePageHeaderText();
@@ -57,10 +41,6 @@ public class HomePageTest {
 		Assert.assertEquals(title,Constants.HOME_PAGE_HEADER,"header is not found");
 	}
 	
-	@AfterTest
-	public void tearDown() {
-		driver.quit();
-	}
 	
 	
 	

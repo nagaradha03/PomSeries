@@ -1,32 +1,26 @@
 package com.qa.hubspot.test;
-
-import java.util.Properties;
-
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
-import com.qa.hubspot.base.BasePage;
-import com.qa.hubspot.pages.LoginPage;
+import com.qa.hubspot.base.BaseTest;
+import com.qa.hubspot.listeners.ExtentReportListener;
 import com.qa.hubspot.utils.Constants;
 
-public class LoginPageTest {
-	WebDriver driver;
-	BasePage basePage;
-	LoginPage loginPage;
-	Properties prop;
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
+
+//@Listeners(ExtentReportListener.class)
+@Epic("Epic-101 :design login page with different features...")
+@Story("US-102:design basic page login with signup,title and login form")
+public class LoginPageTest extends BaseTest{
 	
-	@BeforeTest
-	public void setup() {
-		basePage=new BasePage();
-		prop=basePage.init_prop();
-		driver=basePage.init_driver(prop);
-		loginPage=new LoginPage(driver);
-		}
 	
 	@Test(priority=1)
+	@Description("Verify sign up link test")
+	@Severity(SeverityLevel.NORMAL)
 	public void verifySignUpLinkTest() {
 		
 		Assert.assertTrue(loginPage.verifySignUpLink(),"sign up link is not displayed");
@@ -34,6 +28,8 @@ public class LoginPageTest {
 		
 	}
 	@Test(priority=2)
+	@Description("Verify login page title......")
+	
 	public void verifyLoginPageTitle() {
 		String title=loginPage.getLoginPageTitle();
 		System.out.println("The title of the page is:" + title);
@@ -42,13 +38,9 @@ public class LoginPageTest {
 	}
 	
 	@Test(priority=3)
+	@Severity(SeverityLevel.BLOCKER)
 	public void verifydoLoginTest() {
 		loginPage.doLogin(prop.getProperty("username"),prop.getProperty("password"));
-	}
-	
-	@AfterTest
-	public void tearDown() {
-		driver.quit();
 	}
 	
 	
